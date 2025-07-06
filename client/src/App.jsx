@@ -1,13 +1,23 @@
 import './index.css'
 import './App.css'
+import Login from './components/Auth/Login.jsx';
+import Register from './components/Auth/Register.jsx';
+import React from 'react';
+import {Route, Routes} from 'react-router-dom';
 
 function App() {
 
   return (
-    <>
-      <h1> Lets Build the Excel-analytics-platform </h1>
-    </>
-  )
+    <div>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register/>} />
+    
+    </Routes>
+      {/* <Login/> */}
+    </div>
+  );
 }
 
 export default App
