@@ -1,76 +1,102 @@
 import React from "react";
+import {
+  UserIcon,
+  EnvelopeIcon as MailIcon,
+  LockClosedIcon,
+} from "@heroicons/react/24/outline";
+import login from "../../assets/login1.png";
 import { Link } from "react-router-dom";
+
 
 const Login = () => {
   return (
-    <div className="fixed flex h-screen w-full">
-      {/* Left Panel */}
-      <div className="w-1/2 bg-blue-500 text-white flex items-center justify-center p-10">
-        <h2 className="text-3xl font-bold text-center">
-          Excel Analytics Platform
-        </h2>
+    <div className="fixed flex flex-col md:flex-row h-screen w-full bg-white">
+      {/* Gradient Section (Left side) - Hidden on mobile */}
+      <div className="hidden md:flex md:w-1/2 flex-col items-center justify-center rounded-tr-3xl rounded-br-3xl bg-gradient-to-br from-blue-500 to-purple-600 text-white p-8 text-center">
+        <h1 className="text-4xl font-bold mb-4">Welcome Back!</h1>
+        <p className="text-lg mb-6">
+          To keep connected with us please log in with your personal info
+        </p>
+        <div className="mt-6">
+          <img
+            src={login}
+            alt="Welcome Illustration"
+            className="w-3/4 max-w-sm mx-auto"
+          />
+        </div>
       </div>
 
-      {/* Right Panel - Login Form */}
-      <div className="w-1/2 max-w-4xl p-10 bg-white flex flex-col justify-center">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-6 justify-center">Login</h2>
-        <form>
-          <div className="mb-4">
-            <label className="block text-gray-600 text-sm mb-1">
-              Email address
-            </label>
+      {/* Create Account Section (Right side) - Full width on mobile */}
+      <div className="w-full md:w-1/2 flex flex-col items-center justify-center bg-white p-8">
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent mb-4">
+          Login
+        </h1>
+        <p className="text-sm text-gray-600 mb-6 text-center">
+          Login to your account
+        </p>
+        <form className="space-y-4 w-full max-w-md">
+          {/* user name */}
+          <div className="flex flex-col md:flex-row md:space-x-7 space-y-4 md:space-y-0">
+            <div className="relative w-full">
+              <UserIcon className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                className="text-black w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                required
+              />
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+            <div className="relative w-full">
+              <UserIcon className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
+              <select className="text-gray-500 w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <option value="">Select Role</option>
+                <option value="Employer">Employer</option>
+                <option value="Job Seeker">Job Seeker</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Email */}
+          <div className="relative">
+            <MailIcon className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
             <input
               type="email"
+              placeholder="Email"
               name="email"
-              placeholder="Email address"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="text-black w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-600 text-sm mb-1">Password</label>
+          {/* Password */}
+          <div className="relative">
+            <LockClosedIcon className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
             <input
               type="password"
-              name="password"
               placeholder="Password"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              name="password"
+              className="text-black w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-600 text-sm mb-1">
-              Select Role
-            </label>
-            <select
-              name="role"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          {/* Submit Button */}
+          <div>
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg transition duration-200"
             >
-              <option value="">Select a role</option>
-              <option value="admin">Admin</option>
-              <option value="user">User</option>
-            </select>
+              Login
+            </button>
+            <p className="text-sm text-gray-600 mt-4 text-center">
+              New user?{" "}
+              <Link to="/register" className="text-blue-600 hover:underline">
+                Register
+              </Link>
+            </p>
           </div>
-
-          <div className="mb-4 flex items-center">
-            <input type="checkbox" id="adminCheck" className="mr-2" />
-            <label htmlFor="adminCheck" className="text-sm text-gray-600">
-              I am an Admin
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md"
-          >
-            Login
-          </button>
-
-          <p className="text-sm text-gray-600 mt-4 text-center">
-            New user?{" "}
-            <Link to="/register" className="text-blue-600 hover:underline">
-              Register
-            </Link>
-          </p>
         </form>
       </div>
     </div>
