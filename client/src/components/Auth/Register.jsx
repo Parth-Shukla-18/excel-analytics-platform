@@ -53,8 +53,8 @@ const Register = () => {
               <UserIcon className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
               <select className="text-gray-500 w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
                 <option value="">Select Role</option>
-                <option value="Employer">Employer</option>
-                <option value="Job Seeker">Job Seeker</option>
+                <option value="Admin">Admin</option>
+                <option value="User">User</option>
               </select>
             </div>
           </div>
