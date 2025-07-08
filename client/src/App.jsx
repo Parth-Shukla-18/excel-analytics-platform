@@ -1,11 +1,12 @@
 import './index.css'
 import './App.css'
+import ExcelChartWithTypes from './Components/ExcelChartWithTypes'
 
 function App() {
 
   return (
     <>
-      <h1> Lets Build the Excel-analytics-platform </h1>
+      <ExcelChartWithTypes />
     </>
   )
 }
