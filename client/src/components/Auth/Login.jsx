@@ -7,7 +7,6 @@ import {
 import login from "../../assets/login1.png";
 import { Link } from "react-router-dom";
 
-
 const Login = () => {
   return (
     <div className="fixed flex flex-col md:flex-row h-screen w-full bg-white">
@@ -35,19 +34,6 @@ const Login = () => {
           Login to your account
         </p>
         <form className="space-y-4 w-full max-w-md">
-          {/* user name */}
-          <div className="flex flex-col md:flex-row md:space-x-7 space-y-4 md:space-y-0">
-            <div className="relative w-full">
-              <UserIcon className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Username"
-                name="username"
-                className="text-black w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              />
-            </div>
-          </div>
           <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
             <div className="relative w-full">
               <UserIcon className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
