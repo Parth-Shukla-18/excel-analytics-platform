@@ -19,6 +19,11 @@ const fileSchema = mongoose.Schema({
     Yaxis: {
         type: mongoose.Schema.Types.Mixed,
         required: true
+    }, 
+    charType: {
+        type: String, 
+        required: true
+
     }
     
 })
