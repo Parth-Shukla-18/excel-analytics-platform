@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import * as XLSX from 'xlsx';
 import {
   Chart as ChartJS,
@@ -33,10 +33,14 @@ const ExcelChartWithTypes = () => {
   const [yAxis, setYAxis] = useState('');
   const [chartType, setChartType] = useState('bar');
   const [chartData, setChartData] = useState(null);
+  const [input, setInput] = useState('Choose Your File');
+
+  const chartRef = useRef(null); // 👉 Ref for the chart instance
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
+    setInput(file.name);
 
     reader.onload = (evt) => {
       const data = new Uint8Array(evt.target.result);
@@ -64,8 +68,8 @@ const ExcelChartWithTypes = () => {
     const xIndex = headers.indexOf(xAxis);
     const yIndex = headers.indexOf(yAxis);
 
-    const labels = dataRows.map(row => row[xIndex]);
-    const values = dataRows.map(row => row[yIndex]);
+    const labels = dataRows.map((row) => row[xIndex]);
+    const values = dataRows.map((row) => row[yIndex]);
 
     const data = {
       labels,
@@ -73,9 +77,10 @@ const ExcelChartWithTypes = () => {
         {
           label: yAxis,
           data: values,
-          backgroundColor: chartType === 'pie'
-            ? ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
-            : 'rgba(75,192,192,0.6)',
+          backgroundColor:
+            chartType === 'pie'
+              ? ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+              : 'rgba(75,192,192,0.6)',
           borderColor: 'rgba(75,192,192,1)',
           borderWidth: 1,
         },
@@ -85,16 +90,31 @@ const ExcelChartWithTypes = () => {
     setChartData(data);
   };
 
+  const handleSaveChart = () => {
+    if (chartRef.current) {
+      const chartInstance = chartRef.current;
+      const link = document.createElement('a');
+      link.href = chartInstance.toBase64Image();
+      link.download = 'chart.png';
+      link.click();
+    }
+  };
+
   const renderChart = () => {
     if (!chartData) return null;
 
+    const chartProps = {
+      data: chartData,
+      ref: chartRef, // 👉 Attach the ref
+    };
+
     switch (chartType) {
       case 'bar':
-        return <Bar data={chartData} />;
+        return <Bar {...chartProps} />;
       case 'line':
-        return <Line data={chartData} />;
+        return <Line {...chartProps} />;
       case 'pie':
-        return <Pie data={chartData} />;
+        return <Pie {...chartProps} />;
       default:
         return null;
     }
@@ -103,26 +123,29 @@ const ExcelChartWithTypes = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-6">
-        <h2 className="text-2xl font-bold text-gray-700 mb-6 text-center">Excel to Chart Visualizer</h2>
+        <h2 className="text-2xl font-bold text-gray-700 mb-6 text-center">
+          Excel to Chart Visualizer
+        </h2>
 
         <div className="mb-6">
-          {/* <label className="block text-gray-600 font-medium mb-2">Drop your Excel file here </label> */}
           <label className="bg-gray-200 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-gray-600 cursor-pointer focus-within:ring-2 focus-within:ring-blue-400">
-  📁 Choose your file
-  <input
-    type="file"
-    accept=".xlsx, .xls"
-    onChange={handleFileUpload}
-    className="hidden"
-  />
-</label>
+            📁 {input}
+            <input
+              type="file"
+              accept=".xlsx, .xls"
+              onChange={handleFileUpload}
+              className="hidden"
+            />
+          </label>
         </div>
 
         {headers.length > 0 && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div>
-                <label className="block text-gray-600 font-medium mb-1">Select X Axis</label>
+                <label className="block text-gray-600 font-medium mb-1">
+                  Select X Axis
+                </label>
                 <select
                   value={xAxis}
                   onChange={(e) => setXAxis(e.target.value)}
@@ -130,12 +153,16 @@ const ExcelChartWithTypes = () => {
                 >
                   <option value="">-- Select --</option>
                   {headers.map((header, index) => (
-                    <option key={index} value={header}>{header}</option>
+                    <option key={index} value={header}>
+                      {header}
+                    </option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-gray-600 font-medium mb-1">Select Y Axis</label>
+                <label className="block text-gray-600 font-medium mb-1">
+                  Select Y Axis
+                </label>
                 <select
                   value={yAxis}
                   onChange={(e) => setYAxis(e.target.value)}
@@ -143,12 +170,16 @@ const ExcelChartWithTypes = () => {
                 >
                   <option value="">-- Select --</option>
                   {headers.map((header, index) => (
-                    <option key={index} value={header}>{header}</option>
+                    <option key={index} value={header}>
+                      {header}
+                    </option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-gray-600 font-medium mb-1">Chart Type</label>
+                <label className="block text-gray-600 font-medium mb-1">
+                  Chart Type
+                </label>
                 <select
                   value={chartType}
                   onChange={(e) => setChartType(e.target.value)}
@@ -175,6 +206,14 @@ const ExcelChartWithTypes = () => {
         {chartData && (
           <div className="mt-8">
             {renderChart()}
+            <div className="text-center mt-4">
+              <button
+                onClick={handleSaveChart}
+                className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-md transition"
+              >
+                Save Chart
+              </button>
+            </div>
           </div>
         )}
       </div>
